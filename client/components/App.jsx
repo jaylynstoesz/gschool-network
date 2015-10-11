@@ -11,11 +11,20 @@ App = React.createClass({
   getInitialState() {
     return {
       editable: Meteor.userId() === this.props.page,
-      currentProfile: this.getProfile()
+      currentProfile: false
     }
   },
 
+  componentWillMount() {
+    this.setState({currentProfile: this.getProfile()})
+  },
+
+  componentWillUnmount() {
+    this.setState({currentProfile: false})
+  },
+
   getProfile() {
+    console.log("***", Meteor.users.findOne({ _id: this.props.page }));
     if (Meteor.users.findOne({ _id: this.props.page }) !== undefined) {
       return Meteor.users.findOne({ _id: this.props.page });
     } else {
@@ -24,6 +33,7 @@ App = React.createClass({
   },
 
   render() {
+    console.log("current user:", this.data.currentUser);
     return (
       <div>
         <AccountsUIWrapper />

@@ -4,6 +4,10 @@ if (Meteor.isServer) {
   //   return Todos.find();
   // });
 
+  Meteor.publish("userData", function () {
+    return Meteor.users.find({})
+  });
+
   Meteor.methods({
 
     updateUserBasic: function (userObject) {
