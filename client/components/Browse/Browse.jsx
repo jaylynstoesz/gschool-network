@@ -3,8 +3,12 @@ Browse = React.createClass({
   renderUsers() {
     var allUsers = Meteor.users.find({}).fetch()
     return allUsers.map((user) => {
-      return <li key={user._id} user={user}> {user._id} </li>;
-    });
+      return (
+        <div key={user._id}>
+          <a user={user} href={"/users/" + user._id}> User Profile </a>
+        </div>
+      )
+    })
   },
 
   render() {
