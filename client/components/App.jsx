@@ -16,7 +16,11 @@ App = React.createClass({
   },
 
   getProfile() {
-    return Meteor.users.findOne({ _id: this.props.page });
+    if (Meteor.users.findOne({ _id: this.props.page }) !== undefined) {
+      return Meteor.users.findOne({ _id: this.props.page });
+    } else {
+      return false
+    }
   },
 
   render() {
@@ -24,7 +28,7 @@ App = React.createClass({
       <div>
         <AccountsUIWrapper />
         <Dashboard currentUser={this.data.currentUser}/>
-        <Profile editable={this.state.editable} currentProfile={this.state.currentProfile}/>
+        {this.state.currentProfile ? <Profile editable={this.state.editable} currentProfile={this.state.currentProfile}/> : <Browse /> }
       </div>
     )
   }
