@@ -9,7 +9,7 @@ App = React.createClass({
   },
 
   render() {
-    console.log("current user:", this.data.currentUser);
+    console.log("current user:", this.data.currentUser)
     return (
       <div>
         <AccountsUIWrapper />

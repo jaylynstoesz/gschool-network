@@ -10,7 +10,7 @@ if (Meteor.isServer) {
 
   Meteor.methods({
 
-    updateUserBasic: function (userObject) {
+    updateUserProfile: function (userObject) {
       var setModifier = { $set: {} }
       setModifier.$set.profile = userObject
       Meteor.users.update(Meteor.user()._id, setModifier)
