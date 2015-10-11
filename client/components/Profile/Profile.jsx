@@ -26,7 +26,6 @@ Profile = React.createClass({
 
   render() {
     var currentProfile = this.getProfile()
-    console.log("current profile:", currentProfile);
     return (
       <div id="profile-comp">
         <h1>This is the Profile</h1>
