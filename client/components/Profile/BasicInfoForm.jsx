@@ -1,15 +1,24 @@
 BasicInfoForm = React.createClass({
   getInitialState() {
+    var profile = this.props.profile || {}
     return {
-      firstName: this.props.profile.firstName || "",
-      lastName: this.props.profile.lastName || "",
-      cohortType: this.props.profile.cohortType || "",
-      cohortNumber: this.props.profile.cohortNumber || "",
-      currentCity: this.props.profile.currentCity || "",
-      currentState: this.props.profile.currentState || "",
-      jobTitle: this.props.profile.jobTitle || "",
-      company: this.props.profile.company || "",
+      firstName: profile.firstName || "",
+      lastName: profile.lastName || "",
+      cohortType: profile.cohortType || "",
+      cohortNumber: profile.cohortNumber || "",
+      currentCity: profile.currentCity || "",
+      currentState: profile.currentState || "",
+      jobTitle: profile.jobTitle || "",
+      company: profile.company || "",
+      desiredCity: profile.desiredCity || "",
+      desiredState: profile.desiredState || "",
+      bio: profile.bio || "",
+      canSubmit: false
     }
+  },
+
+  enableSubmit() {
+    this.setState({canSubmit: true})
   },
 
   handleSubmit(event) {
@@ -23,6 +32,9 @@ BasicInfoForm = React.createClass({
     userObject.currentState = React.findDOMNode(this.refs.currentState).value.trim();
     userObject.jobTitle = React.findDOMNode(this.refs.jobTitle).value.trim();
     userObject.company = React.findDOMNode(this.refs.company).value.trim();
+    userObject.desiredCity = React.findDOMNode(this.refs.desiredCity).value.trim();
+    userObject.desiredState = React.findDOMNode(this.refs.desiredState).value.trim();
+    userObject.bio = React.findDOMNode(this.refs.bio).value.trim();
 
     this.props.submitForm(userObject)
   },
@@ -59,7 +71,16 @@ BasicInfoForm = React.createClass({
           <input ref="currentState" type="text" placeholder="Current State" onChange={this._onChange} name="currentState" value={this.state.currentState}/>
           <input ref="jobTitle" type="text" placeholder="Job Title" onChange={this._onChange} name="jobTitle" value={this.state.jobTitle}/>
           <input ref="company" type="text" placeholder="Company" onChange={this._onChange} name="company" value={this.state.company}/>
-          <input type="submit" value="Update Basic Info"/>
+
+          <input type="checkbox" value="Full Stack">Full Stack</input>
+          <input type="checkbox" value="Front End">Front End</input>
+          <input type="checkbox" value="Back End">Back End</input>
+          <input type="checkbox" value="Data Science">Data Science</input>
+
+          <input ref="desiredCity" type="text" placeholder="Desired City" onChange={this._onChange} name="desiredCity" value={this.state.desiredCity}/>
+          <input ref="desiredState" type="text" placeholder="Desired State" onChange={this._onChange} name="desiredState" value={this.state.desiredState}/>
+          <textarea ref="bio" value={this.state.bio} name="bio" onChange={this._onChange}></textarea>
+          <input type="submit" value="Update Info"/>
         </form>
       </div>
     )

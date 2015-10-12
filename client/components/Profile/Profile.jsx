@@ -3,7 +3,13 @@ Profile = React.createClass({
   getInitialState() {
     return {
       editing: false,
-      profile: this.getProfile()
+    }
+  },
+
+  componentWillMount() {
+    this.setState({profile: this.getProfile()})
+    if (!this.getProfile().profile && this.props.editable) {
+      this.setState({editing: true})
     }
   },
 
@@ -17,6 +23,7 @@ Profile = React.createClass({
 
   submitForm(userObject) {
     Meteor.call("updateUserProfile", userObject)
+    this.setState({profile: this.getProfile()})
     this.toggleBasicForm()
   },
 
@@ -24,14 +31,31 @@ Profile = React.createClass({
     this.setState({editing: !this.state.editing});
   },
 
-  render() {
+  renderProfile() {
     var currentProfile = this.getProfile()
     return (
       <div id="profile-comp">
         <h1>This is the Profile</h1>
-        { this.props.editable ? <button onClick={this.toggleBasicForm}>{this.state.editing ? "Cancel" : "Edit Profile"}</button> : null }
-        { this.state.editing ? <BasicInfoForm profile={currentProfile.profile} submitForm={this.submitForm}/> :
-          <BasicInfo profile={currentProfile.profile} editable={this.props.editable}/> }
+        {this.props.editable ? <button onClick={this.toggleBasicForm}>{this.state.editing ? "Cancel" : "Edit Profile"}</button> : null}
+        {this.state.editing ? <BasicInfoForm profile={currentProfile.profile} submitForm={this.submitForm}/> : this.renderBasicInfo() }
+      </div>
+    )
+  },
+
+  renderBasicInfo() {
+    var currentProfile = this.getProfile()
+    return (
+      <div>
+        <BasicInfo profile={currentProfile}/>
+        <JobInfo profile={currentProfile}/>
+      </div>
+    )
+  },
+
+  render() {
+    return (
+      <div>
+        {this.state.profile ? this.renderProfile() : <h1>Oops! User not found.</h1>}
       </div>
     )
   }

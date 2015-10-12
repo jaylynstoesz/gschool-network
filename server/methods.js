@@ -11,9 +11,12 @@ if (Meteor.isServer) {
   Meteor.methods({
 
     updateUserProfile: function (userObject) {
-      var setModifier = { $set: {} }
-      setModifier.$set.profile = userObject
-      Meteor.users.update(Meteor.user()._id, setModifier)
+      var foo = Object.keys(userObject)
+      var setModifier = {};
+      for (var i = 0; i < foo.length; i++) {
+        setModifier["profile." + foo[i]] = userObject[foo[i]]
+      }
+      Meteor.users.update(Meteor.user()._id, { $set: setModifier })
     },
 
     testMe: function () {
